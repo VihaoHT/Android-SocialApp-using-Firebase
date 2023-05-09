@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "202180726702",
+    "project_id": "angile",
+    "storage_bucket": "angile.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:202180726702:android:19eff8a33429f96d7a823f",
+        "android_client_info": {
+          "package_name": "com.example.socialapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "202180726702-rcedck12f1j8pojr7hr2g2soke4o12v5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcqgYrteE_zRX1Gkbg18Xp9zin8UNy59k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "202180726702-rcedck12f1j8pojr7hr2g2soke4o12v5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
