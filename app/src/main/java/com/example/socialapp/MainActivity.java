@@ -21,7 +21,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.iammert.library.readablebottombar.ReadableBottomBar;
 
 public class MainActivity extends AppCompatActivity {
+    //binding được dùng để thay thế cho ánh xạ thông thường
     ActivityMainBinding binding;
+
     FirebaseAuth auth = FirebaseAuth.getInstance();
     ProgressDialog dialog;
     @Override
@@ -30,18 +32,20 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        //hiện dialog
         dialog = new ProgressDialog(MainActivity.this);
         dialog.setCancelable(false);
         dialog.setMessage("Loading...");
 
+        //set actionbar
         setSupportActionBar(binding.toolbar);
         MainActivity.this.setTitle("My Profile");
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        binding.toolbar.setVisibility(View.GONE);
+        binding.toolbar.setVisibility(View.GONE); //dòng này mình ẩn actionbar đi và chỉ để hiện cho ProfileFragment ở dòng 74
         transaction.replace(R.id.container, new HomeFragment());
         transaction.commit();
-
+        //bottom navigation
         binding.readableBottomBar.setOnItemSelectListener(new ReadableBottomBar.ItemSelectListener() {
             @Override
             public void onItemSelected(int i) {
@@ -66,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                         transaction.replace(R.id.container, new SearchFragment());
                         break;
                     case 4:
-                        binding.toolbar.setVisibility(View.VISIBLE);
+                        binding.toolbar.setVisibility(View.VISIBLE); //GONE là cho mất luôn , VISIBLE là hiện ra
                         transaction.replace(R.id.container, new ProfileFragment());
                         break;
                 }
@@ -81,16 +85,17 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             //log out
-//            case R.id.setting:
-//                auth.signOut();
-//                Intent intent = new Intent(MainActivity.this,LoginActivity.class);
-//                startActivity(intent);
-//                finish();
-//                break;
+            case R.id.setting:
+                auth.signOut();
+                Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                startActivity(intent);
+                finish();
+                break;
 
         }
         return super.onOptionsItemSelected(item);
