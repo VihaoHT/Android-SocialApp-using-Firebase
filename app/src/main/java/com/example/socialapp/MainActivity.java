@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
             public void onItemSelected(int i) {
 
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
                 switch (i){
                     case 0:
                         binding.toolbar.setVisibility(View.GONE);
@@ -66,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
                         transaction.replace(R.id.container, new AddFragment());
                         break;
                     case 3:
+                        dialog.show();
                         binding.toolbar.setVisibility(View.GONE);
                         transaction.replace(R.id.container, new SearchFragment());
                         break;
@@ -74,8 +74,11 @@ public class MainActivity extends AppCompatActivity {
                         transaction.replace(R.id.container, new ProfileFragment());
                         break;
                 }
+
                 transaction.commit();
+
             }
+
         });
     }
 

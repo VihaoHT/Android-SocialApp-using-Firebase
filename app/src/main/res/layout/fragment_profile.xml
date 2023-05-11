@@ -60,7 +60,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
-        android:id="@+id/verifiedAccount"
+        android:id="@+id/changeProfilePhoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/checked"
@@ -77,7 +77,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_4mdp"
         android:fontFamily="@font/acme"
-        android:text="Ho Tran Vi Hao"
+        android:text=""
         android:textColor="@color/black"
         android:textSize="@dimen/_14font_mdp"
         diagonal:layout_constraintEnd_toEndOf="@+id/profile_image"
@@ -88,7 +88,7 @@
         android:id="@+id/profession"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Android Developer"
+        android:text=""
         android:fontFamily="@font/acme"
         android:textSize="@dimen/_10font_mdp"
         diagonal:layout_constraintEnd_toEndOf="@+id/userName"
