@@ -65,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
                         transaction.replace(R.id.container, new AddFragment());
                         break;
                     case 3:
-                        dialog.show();
                         binding.toolbar.setVisibility(View.GONE);
                         transaction.replace(R.id.container, new SearchFragment());
                         break;

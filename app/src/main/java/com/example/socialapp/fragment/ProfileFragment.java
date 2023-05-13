@@ -9,6 +9,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -16,7 +17,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.socialapp.R;
+import com.example.socialapp.adapter.FollowersAdapter;
 import com.example.socialapp.databinding.FragmentProfileBinding;
+import com.example.socialapp.models.FollowModel;
 import com.example.socialapp.models.User;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,6 +40,8 @@ public class ProfileFragment extends Fragment {
 
     //binding được dùng để thay thế cho ánh xạ thông thường
     FragmentProfileBinding binding;
+
+    ArrayList<FollowModel> list;
 
     //ActivityResultLauncher dùng để pick hình ảnh từ thư viện
     ActivityResultLauncher<String> mTakePhoto;
@@ -94,6 +99,34 @@ public class ProfileFragment extends Fragment {
                             binding.profession.setText(user.getProfession());
                             binding.followers.setText(user.getFollowersCount()+ "");
                         }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+        //Hiển thị followers đang theo dõi
+        list = new ArrayList<>();
+
+        FollowersAdapter followersAdapter = new FollowersAdapter(list,getContext());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
+        binding.friendRV.setLayoutManager(linearLayoutManager);
+        binding.friendRV.setAdapter(followersAdapter);
+
+        database.getReference().child("Users")
+                .child(auth.getUid())
+                .child("followers").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        list.clear();
+                        for(DataSnapshot dataSnapshot :snapshot.getChildren())
+                        {
+                            FollowModel followModel = dataSnapshot.getValue(FollowModel.class);
+                            list.add(followModel);
+                        }
+                        followersAdapter.notifyDataSetChanged();
                     }
 
                     @Override
