@@ -49,16 +49,19 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         binding = FragmentSearchBinding.inflate(inflater, container, false);
+
         UserAdapter userAdapter = new UserAdapter(getContext(),list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         binding.userRV.setLayoutManager(layoutManager);
         binding.userRV.addItemDecoration(new DividerItemDecoration(binding.userRV.getContext(),DividerItemDecoration.VERTICAL));
         binding.userRV.setAdapter(userAdapter);
 
+
         binding.btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 searchInputText = binding.searchInput.getText().toString();
+                //nếu trồng thì sẽ báo lỗi
                 if(searchInputText.equals(""))
                 {
                     binding.searchInput.setError("Pls write name who you wanna looking for");
@@ -66,6 +69,7 @@ public class SearchFragment extends Fragment {
                 }
                 else
                 {
+                    //orderbychild là để tìm kiếm name trong bảng users
                     database.getReference().child("Users").orderByChild("name").startAt(searchInputText).endAt(searchInputText+"~").addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {

@@ -19,7 +19,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.socialapp.R;
+import com.example.socialapp.adapter.PostAdapter;
 import com.example.socialapp.databinding.FragmentHomeBinding;
+import com.example.socialapp.models.PostModel;
 import com.example.socialapp.models.User;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -48,7 +50,7 @@ public class HomeFragment extends Fragment {
     ImageView menu, addStory;
     RoundedImageView addStoryImg;
 //    ArrayList<Story> storylist;
-//    ArrayList<PostModel> postList;
+    ArrayList<PostModel> postList;
     FirebaseAuth auth;
     FirebaseDatabase database;
     FirebaseStorage storage;
@@ -78,6 +80,8 @@ public class HomeFragment extends Fragment {
         dialog.setMessage("Loading...");
 
         profile_img = view.findViewById(R.id.profile_image);
+
+        //hiển thị avatar
         database.getReference().child("Users")
                 .child(FirebaseAuth.getInstance().getUid()).addValueEventListener(new ValueEventListener() {
                     @Override
@@ -136,34 +140,36 @@ public class HomeFragment extends Fragment {
 //        addStoryImg = view.findViewById(R.id.addStoryImg);
 //        addStory = view.findViewById(R.id.addStory);
 
-//        //dashboard Recycle View
-//        dashboardRV = view.findViewById(R.id.dashboardRV);
-//        postList = new ArrayList<>();
-//
-//        PostAdapter postAdapter = new PostAdapter(postList, getContext());
-//        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-//        dashboardRV.setLayoutManager(layoutManager);
-//        dashboardRV.addItemDecoration(new DividerItemDecoration(dashboardRV.getContext(), DividerItemDecoration.VERTICAL));
-//        dashboardRV.setNestedScrollingEnabled(false);
-//        dashboardRV.setAdapter(postAdapter);
-//
-//        database.getReference().child("posts").addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                postList.clear();
-//                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-//                    PostModel postModel = dataSnapshot.getValue(PostModel.class);
-//                    postModel.setPostId(dataSnapshot.getKey());
-//                    postList.add(postModel);
-//                }
-//                postAdapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
+        //dashboard Recycle View (phần bài đăng)
+        dashboardRV = view.findViewById(R.id.dashboardRV);
+        postList = new ArrayList<>();
+
+        PostAdapter postAdapter = new PostAdapter(postList, getContext());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        dashboardRV.setLayoutManager(layoutManager);
+        dashboardRV.addItemDecoration(new DividerItemDecoration(dashboardRV.getContext(), DividerItemDecoration.VERTICAL));
+        dashboardRV.setNestedScrollingEnabled(false);
+        dashboardRV.setAdapter(postAdapter);
+
+
+        //hiển thị các bài post
+        database.getReference().child("posts").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                postList.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    PostModel postModel = dataSnapshot.getValue(PostModel.class);
+                    postModel.setPostId(dataSnapshot.getKey());
+                    postList.add(postModel);
+                }
+                postAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 //
 //
 //        addStory.setOnClickListener(new View.OnClickListener() {

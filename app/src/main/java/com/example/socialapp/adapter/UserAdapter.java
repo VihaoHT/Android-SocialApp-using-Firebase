@@ -43,9 +43,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.viewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder,final int position) {
-        //list user
-
-
+        //list user hiển thị trong SearchFramgent
         User user = list.get(position);
         Picasso.get()
                 .load(user.getProfile())
@@ -66,6 +64,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.viewHolder>{
                         FollowModel followModel = new FollowModel();
                         followModel.setFollowedBy(FirebaseAuth.getInstance().getUid());
                         followModel.setFollowedAt(new Date().getTime());
+                        //nếu đã follow sau khi nhấn lại thì unfollow đồng thời count follow giảm đi 1
                         if(snapshot.exists())
                         {
                             holder.binding.followBtn.setOnClickListener(new View.OnClickListener() {
@@ -105,6 +104,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.viewHolder>{
                         }
                         else
                         {
+                            //nếu  chưa follow thì sau khi nhấn nút follow thì count follow tăng lên 1
+                            //đồng thời text và background cũng sẽ thay đổi
                             holder.binding.followBtn.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {

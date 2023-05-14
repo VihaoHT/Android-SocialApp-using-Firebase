@@ -40,6 +40,7 @@ public class FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.view
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
         FollowModel followModel = list.get(position);
 
+        //hiển thị hình ảnh nguòi theo dõi mình trong ProfileFragment
         FirebaseDatabase.getInstance().getReference()
                 .child("Users")
                 .child(followModel.getFollowedBy()).addValueEventListener(new ValueEventListener() {
