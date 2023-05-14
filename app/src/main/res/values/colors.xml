@@ -19,4 +19,6 @@
     <color name="transparent">#FFFFFFFF</color>
     <color name="transparentLG">#ECF8F6</color>
     <color name="gray">#808080</color>
+    <color name="blue">#43A4EB</color>
+
 </resources>

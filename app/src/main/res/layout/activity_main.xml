@@ -41,7 +41,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:rbb_activeItemType="text"
-        app:rbb_backgroundColor="@color/teal_700"
+        app:rbb_backgroundColor="@color/blue"
         app:rbb_indicatorColor="#FF5722"
         app:rbb_tabs="@xml/tabs"
         app:rbb_textColor="#FF5722" />
