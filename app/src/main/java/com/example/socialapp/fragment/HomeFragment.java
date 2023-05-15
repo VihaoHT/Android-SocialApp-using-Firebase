@@ -160,9 +160,10 @@ public class HomeFragment extends Fragment {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     PostModel postModel = dataSnapshot.getValue(PostModel.class);
                     postModel.setPostId(dataSnapshot.getKey());
-                    postList.add(postModel);
+                    postList.add(0,postModel);
                 }
                 postAdapter.notifyDataSetChanged();
+                postAdapter.notifyItemInserted(0);
             }
 
             @Override
