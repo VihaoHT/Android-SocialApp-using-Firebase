@@ -78,7 +78,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.viewHolder>{
                                             .removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
                                                 public void onSuccess(Void unused) {
-                                                    list.clear();
                                                     FirebaseDatabase.getInstance().getReference()
                                                             .child("Users")
                                                             .child(user.getUserID())
@@ -87,7 +86,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.viewHolder>{
                                                                 @Override
                                                                 public void onSuccess(Void avoid) {
                                                                     holder.binding.followBtn.setEnabled(true);
-                                                                    FancyToast.makeText(context,"You've unfollowed " + user.getName(),FancyToast.LENGTH_LONG,FancyToast.SUCCESS,true).show();
+                                                                    FancyToast.makeText(context,"You've unfollowed " + user.getName(),FancyToast.LENGTH_LONG,FancyToast.SUCCESS,false).show();
                                                                 }
                                                             });
                                                 }
@@ -117,7 +116,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.viewHolder>{
                                             .setValue(followModel).addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
                                                 public void onSuccess(Void unused) {
-                                                    list.clear();
                                                     FirebaseDatabase.getInstance().getReference()
                                                             .child("Users")
                                                             .child(user.getUserID())
@@ -129,7 +127,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.viewHolder>{
                                                                     holder.binding.followBtn.setText("Following");
                                                                     holder.binding.followBtn.setTextColor(context.getResources().getColor(R.color.gray));
                                                                     holder.binding.followBtn.setEnabled(false);
-                                                                    FancyToast.makeText(context,"You've followed " + user.getName(),FancyToast.LENGTH_LONG,FancyToast.SUCCESS,true).show();
+                                                                    FancyToast.makeText(context,"You've followed " + user.getName(),FancyToast.LENGTH_LONG,FancyToast.SUCCESS,false).show();
                                                                 }
                                                             });
                                                 }
