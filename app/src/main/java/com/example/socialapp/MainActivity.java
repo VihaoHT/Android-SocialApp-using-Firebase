@@ -98,6 +98,18 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
                 break;
+            case R.id.Change:
+                Intent intent1 = new Intent(MainActivity.this,ChangePassActivity.class);
+                startActivity(intent1);
+                break;
+            case R.id.ChangeEmail:
+                Intent intent2 = new Intent(MainActivity.this,ChangeEmailActivity.class);
+                startActivity(intent2);
+                break;
+            case R.id.ChangeInfo:
+                Intent intent3 = new Intent(MainActivity.this,ChangeInformationActivity.class);
+                startActivity(intent3);
+                break;
 
         }
         return super.onOptionsItemSelected(item);

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/storyImg"
+        android:layout_width="@dimen/_130mdp"
+        android:layout_height="@dimen/_150mdp"
+        android:layout_marginStart="16dp"
+        android:alpha="0.9"
+        android:scaleType="centerCrop"
+        android:src="@drawable/placeholder"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:riv_corner_radius="10dip" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_image"
+        android:layout_width="@dimen/_30mdp"
+        android:layout_height="@dimen/_30mdp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/useravatar"
+        app:layout_constraintStart_toStartOf="@+id/storyImg"
+        app:layout_constraintTop_toTopOf="@+id/storyImg" />
+
+    <com.devlomi.circularstatusview.CircularStatusView
+        android:id="@+id/status"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/white_cricle"
+        app:portion_color="@color/orange"
+        app:portion_spacing="5dp"
+        app:portion_width="2dp"
+        app:portions_count="10"
+        app:layout_constraintBottom_toBottomOf="@+id/profile_image"
+        app:layout_constraintEnd_toEndOf="@+id/profile_image"
+        app:layout_constraintStart_toStartOf="@+id/profile_image"
+        app:layout_constraintTop_toTopOf="@+id/profile_image"
+        app:layout_constraintVertical_bias="0.423" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="8dp"
+        android:text="Vi Hao"
+        android:textColor="@color/orange"
+        android:fontFamily="@font/roboto_black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/storyImg"
+        app:layout_constraintStart_toStartOf="@+id/storyImg" />
+
+    <ImageView
+        android:id="@+id/menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintEnd_toEndOf="@+id/storyImg"
+        app:layout_constraintTop_toTopOf="@+id/storyImg"
+        app:srcCompat="@drawable/ic_more" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
