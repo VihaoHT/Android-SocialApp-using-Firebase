@@ -1,6 +1,7 @@
 package com.example.socialapp.fragment;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -18,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.socialapp.ChatBotActivity;
 import com.example.socialapp.R;
 import com.example.socialapp.adapter.PostAdapter;
 import com.example.socialapp.adapter.StoryAdapter;
@@ -235,6 +237,13 @@ public class HomeFragment extends Fragment {
                 }
         );
 
+        profile_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ChatBotActivity.class);
+                startActivity(intent);
+            }
+        });
 
         return view;
         //return  binding.getRoot();
