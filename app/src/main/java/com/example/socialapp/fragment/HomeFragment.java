@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.example.socialapp.ChatBotActivity;
 import com.example.socialapp.R;
 import com.example.socialapp.adapter.PostAdapter;
@@ -50,7 +51,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class HomeFragment extends Fragment {
     FragmentHomeBinding binding;
     ProgressDialog dialog;
-    RecyclerView storyRv, dashboardRV;
+    RecyclerView storyRv;
+    ShimmerRecyclerView dashboardRV;
     CircleImageView profile_img;
     ImageView menu, addStory;
     RoundedImageView addStoryImg;
@@ -147,6 +149,7 @@ public class HomeFragment extends Fragment {
 
         //dashboard Recycle View (phần bài đăng)
         dashboardRV = view.findViewById(R.id.dashboardRV);
+        dashboardRV.showShimmerAdapter();
         postList = new ArrayList<>();
 
         PostAdapter postAdapter = new PostAdapter(postList, getContext());
@@ -154,7 +157,7 @@ public class HomeFragment extends Fragment {
         dashboardRV.setLayoutManager(layoutManager);
         dashboardRV.addItemDecoration(new DividerItemDecoration(dashboardRV.getContext(), DividerItemDecoration.VERTICAL));
         dashboardRV.setNestedScrollingEnabled(false);
-        dashboardRV.setAdapter(postAdapter);
+
 
 
         //hiển thị các bài post
@@ -167,6 +170,8 @@ public class HomeFragment extends Fragment {
                     postModel.setPostId(dataSnapshot.getKey());
                     postList.add(0,postModel);
                 }
+                dashboardRV.setAdapter(postAdapter);
+                dashboardRV.hideShimmerAdapter();
                 postAdapter.notifyDataSetChanged();
                 postAdapter.notifyItemInserted(0);
             }

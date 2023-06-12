@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.socialapp.CommentActivity;
 import com.example.socialapp.R;
 import com.example.socialapp.databinding.DashboardRvBinding;
+import com.example.socialapp.models.Notification;
 import com.example.socialapp.models.PostModel;
 import com.example.socialapp.models.User;
 import com.github.marlonlom.utilities.timeago.TimeAgo;
@@ -35,6 +36,7 @@ import com.shashank.sony.fancytoastlib.FancyToast;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.viewHolder>{
@@ -136,6 +138,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.viewHolder>{
                                                                 @Override
                                                                 public void onSuccess(Void unused) {
                                                                     holder.binding.like.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_heart, 0, 0, 0);
+
                                                                 }
                                                             });
                                                 }
@@ -165,6 +168,19 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.viewHolder>{
                                                                 @Override
                                                                 public void onSuccess(Void unused) {
                                                                     holder.binding.like.setCompoundDrawablesWithIntrinsicBounds(R.drawable.heart, 0, 0, 0);
+
+                                                                    Notification notification = new Notification();
+                                                                    notification.setNotificationBy(FirebaseAuth.getInstance().getUid());
+                                                                    notification.setNotificationAt(new Date().getTime());
+                                                                    notification.setPostId(model.getPostId());
+                                                                    notification.setPostedBy(model.getPostedBy());
+                                                                    notification.setType("like");
+
+                                                                    FirebaseDatabase.getInstance().getReference()
+                                                                            .child("notification")
+                                                                            .child(model.getPostedBy())
+                                                                            .push()
+                                                                            .setValue(notification);
                                                                 }
                                                             });
                                                 }

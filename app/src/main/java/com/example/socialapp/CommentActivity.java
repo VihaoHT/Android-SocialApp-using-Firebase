@@ -12,6 +12,7 @@ import android.view.View;
 import com.example.socialapp.adapter.CommentAdapter;
 import com.example.socialapp.databinding.ActivityCommentBinding;
 import com.example.socialapp.models.CommentModel;
+import com.example.socialapp.models.Notification;
 import com.example.socialapp.models.PostModel;
 import com.example.socialapp.models.User;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -132,6 +133,19 @@ public class CommentActivity extends AppCompatActivity {
                                                             public void onSuccess(Void unused) {
                                                                 binding.commentET.setText("");
                                                                 FancyToast.makeText(CommentActivity.this, "Commented", FancyToast.LENGTH_LONG, FancyToast.SUCCESS, true).show();
+
+                                                                Notification notification = new Notification();
+                                                                notification.setNotificationBy(FirebaseAuth.getInstance().getUid());
+                                                                notification.setNotificationAt(new Date().getTime());
+                                                                notification.setPostId(postId);
+                                                                notification.setPostedBy(postedBy);
+                                                                notification.setType("comment");
+
+                                                                FirebaseDatabase.getInstance().getReference()
+                                                                        .child("notification")
+                                                                        .child(postedBy)
+                                                                        .push()
+                                                                        .setValue(notification);
                                                             }
                                                         });
 

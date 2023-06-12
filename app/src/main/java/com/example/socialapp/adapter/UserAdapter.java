@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.socialapp.R;
 import com.example.socialapp.databinding.UserSampleBinding;
 import com.example.socialapp.models.FollowModel;
+import com.example.socialapp.models.Notification;
 import com.example.socialapp.models.User;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -87,6 +88,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.viewHolder>{
                                                                 public void onSuccess(Void avoid) {
                                                                     holder.binding.followBtn.setEnabled(true);
                                                                     FancyToast.makeText(context,"You've unfollowed " + user.getName(),FancyToast.LENGTH_LONG,FancyToast.SUCCESS,false).show();
+
                                                                 }
                                                             });
                                                 }
@@ -128,6 +130,18 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.viewHolder>{
                                                                     holder.binding.followBtn.setTextColor(context.getResources().getColor(R.color.gray));
                                                                     holder.binding.followBtn.setEnabled(false);
                                                                     FancyToast.makeText(context,"You've followed " + user.getName(),FancyToast.LENGTH_LONG,FancyToast.SUCCESS,false).show();
+
+                                                                    Notification notification = new Notification();
+                                                                    notification.setNotificationBy(FirebaseAuth.getInstance().getUid());
+                                                                    notification.setNotificationAt(new Date().getTime());
+                                                                    notification.setType("follow");
+
+                                                                    FirebaseDatabase.getInstance().getReference()
+                                                                            .child("notification")
+                                                                            .child(user.getUserID())
+                                                                            .push()
+                                                                            .setValue(notification);
+
                                                                 }
                                                             });
                                                 }

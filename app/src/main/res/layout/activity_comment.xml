@@ -173,7 +173,7 @@
         android:background="@android:color/transparent"
         android:ems="10"
         android:hint="Write a comment"
-
+        android:text=""
         android:inputType="textMultiLine|textPersonName"
         android:maxLines="2"
         android:paddingTop="8dp"

@@ -59,74 +59,61 @@ public class SearchFragment extends Fragment {
         binding.userRV.setAdapter(userAdapter);
 
 
-        binding.btnSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                searchInputText = binding.searchInput.getText().toString();
-                //nếu trồng thì sẽ báo lỗi
-                if(searchInputText.isEmpty())
-                {
-                    binding.searchInput.setError("Pls write name who you wanna looking for");
-                    list.clear();
-                }
-                else
-                {
-                    database.getReference().child("Users").orderByChild("name").startAt(searchInputText)
-                            .endAt(searchInputText+"~").addChildEventListener(new ChildEventListener() {
-                        @Override
-                        public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                            User user = snapshot.getValue(User.class);
-                            user.setUserID(snapshot.getKey());
-                            // nếu là currentUser thì sẽ ko hiện lên list search fragment
-                            if(!snapshot.getKey().equals(FirebaseAuth.getInstance().getUid())){
-                                list.add(user);
-
-                            }
-                            userAdapter.notifyDataSetChanged();
-
-                        }
-
-                        @Override
-                        public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                           
-
-
-                        }
-
-                        @Override
-                        public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-                        }
-
-                        @Override
-                        public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-//                    //orderbychild là để tìm kiếm name trong bảng users
-//                    database.getReference().child("Users").orderByChild("name").startAt(searchInputText).endAt(searchInputText+"~").addValueEventListener(new ValueEventListener() {
+//        binding.btnSearch.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                searchInputText = binding.searchInput.getText().toString();
+//                //nếu trồng thì sẽ báo lỗi
+//                if(searchInputText.isEmpty())
+//                {
+//                    binding.searchInput.setError("Pls write name who you wanna looking for");
+//                    list.clear();
+//                }
+//                else
+//                {
+//                    database.getReference().child("Users").orderByChild("name").startAt(searchInputText)
+//                            .endAt(searchInputText+"~").addChildEventListener(new ChildEventListener() {
 //                        @Override
-//                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                        public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+////                            User user = snapshot.getValue(User.class);
+////                            user.setUserID(snapshot.getKey());
+////                            // nếu là currentUser thì sẽ ko hiện lên list search fragment
+////                            if(!snapshot.getKey().equals(FirebaseAuth.getInstance().getUid())){
+////                                list.add(user);
+////
+////                            }
+////                            userAdapter.notifyDataSetChanged();
 //
-//                            for(DataSnapshot dataSnapshot : snapshot.getChildren())
-//                            {
+//                        }
 //
-//                                User user = dataSnapshot.getValue(User.class);
-//                                user.setUserID(dataSnapshot.getKey());
-//                                // nếu là currentUser thì sẽ ko hiện lên list search fragment
-//                                if(!dataSnapshot.getKey().equals(FirebaseAuth.getInstance().getUid())){
-//                                    list.add(user);
-//
-//                                }
+//                        @Override
+//                        public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//                            User user = snapshot.getValue(User.class);
+//                            user.setUserID(snapshot.getKey());
+//                            // nếu là currentUser thì sẽ ko hiện lên list search fragment
+//                            if(!snapshot.getKey().equals(FirebaseAuth.getInstance().getUid())){
+//                                list.add(user);
 //
 //                            }
-//                            list.clear();
 //                            userAdapter.notifyDataSetChanged();
+//                        }
+//
+//                        @Override
+//                        public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+//
+//                        }
+//
+//                        @Override
+//                        public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+////                            User user = snapshot.getValue(User.class);
+////                            user.setUserID(snapshot.getKey());
+////                            // nếu là currentUser thì sẽ ko hiện lên list search fragment
+////                            if(!snapshot.getKey().equals(FirebaseAuth.getInstance().getUid())){
+////                                list.add(user);
+////
+////                            }
+////
+////                            userAdapter.notifyDataSetChanged();
 //                        }
 //
 //                        @Override
@@ -134,45 +121,85 @@ public class SearchFragment extends Fragment {
 //
 //                        }
 //                    });
-                }
-                database.getReference().child("Users").orderByChild("name").startAt(searchInputText)
-                        .endAt(searchInputText+"~").addChildEventListener(new ChildEventListener() {
-                            @Override
-                            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                                User user = snapshot.getValue(User.class);
-                                user.setUserID(snapshot.getKey());
-                                // nếu là currentUser thì sẽ ko hiện lên list search fragment
-                                if(!snapshot.getKey().equals(FirebaseAuth.getInstance().getUid())){
-                                    list.add(user);
-
-                                }
-                                userAdapter.notifyDataSetChanged();
-
-                            }
-
-                            @Override
-                            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-
-                            }
-
-                            @Override
-                            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-                            }
-
-                            @Override
-                            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-            }
-        });
+////                    //orderbychild là để tìm kiếm name trong bảng users
+////                    database.getReference().child("Users").orderByChild("name").startAt(searchInputText).endAt(searchInputText+"~").addValueEventListener(new ValueEventListener() {
+////                        @Override
+////                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+////
+////                            for(DataSnapshot dataSnapshot : snapshot.getChildren())
+////                            {
+////
+////                                User user = dataSnapshot.getValue(User.class);
+////                                user.setUserID(dataSnapshot.getKey());
+////                                // nếu là currentUser thì sẽ ko hiện lên list search fragment
+////                                if(!dataSnapshot.getKey().equals(FirebaseAuth.getInstance().getUid())){
+////                                    list.add(user);
+////
+////                                }
+////
+////                            }
+////                            list.clear();
+////                            userAdapter.notifyDataSetChanged();
+////                        }
+////
+////                        @Override
+////                        public void onCancelled(@NonNull DatabaseError error) {
+////
+////                        }
+////                    });
+//                }
+//                database.getReference().child("Users").orderByChild("name").startAt(searchInputText)
+//                        .endAt(searchInputText+"~").addChildEventListener(new ChildEventListener() {
+//                            @Override
+//                            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+////                                User user = snapshot.getValue(User.class);
+////                                user.setUserID(snapshot.getKey());
+////                                // nếu là currentUser thì sẽ ko hiện lên list search fragment
+////                                if(!snapshot.getKey().equals(FirebaseAuth.getInstance().getUid())){
+////                                    list.add(user);
+////
+////                                }
+////                                userAdapter.notifyDataSetChanged();
+//
+//                            }
+//
+//                            @Override
+//                            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//                                User user = snapshot.getValue(User.class);
+//                                user.setUserID(snapshot.getKey());
+//                                // nếu là currentUser thì sẽ ko hiện lên list search fragment
+//                                if(!snapshot.getKey().equals(FirebaseAuth.getInstance().getUid())){
+//                                    list.add(user);
+//
+//                                }
+//                                userAdapter.notifyDataSetChanged();
+//                            }
+//
+//                            @Override
+//                            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+//
+//                            }
+//
+//                            @Override
+//                            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+////                                User user = snapshot.getValue(User.class);
+////                                user.setUserID(snapshot.getKey());
+////                                // nếu là currentUser thì sẽ ko hiện lên list search fragment
+////                                if(!snapshot.getKey().equals(FirebaseAuth.getInstance().getUid())){
+////                                    list.add(user);
+////
+////                                }
+////                                list.clear();
+////                                userAdapter.notifyDataSetChanged();
+//                            }
+//
+//                            @Override
+//                            public void onCancelled(@NonNull DatabaseError error) {
+//
+//                            }
+//                        });
+//            }
+//        });
 
         database.getReference().child("Users").orderByChild("name").startAt(searchInputText)
                 .endAt(searchInputText+"~").addChildEventListener(new ChildEventListener() {
@@ -191,6 +218,8 @@ public class SearchFragment extends Fragment {
                     @Override
                     public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
+
+
                     }
 
                     @Override
@@ -200,7 +229,15 @@ public class SearchFragment extends Fragment {
 
                     @Override
                     public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
+//                        User user = snapshot.getValue(User.class);
+//                        user.setUserID(snapshot.getKey());
+//                        // nếu là currentUser thì sẽ ko hiện lên list search fragment
+//                        if(!snapshot.getKey().equals(FirebaseAuth.getInstance().getUid())){
+//                            list.add(user);
+//
+//                        }
+//                        list.clear();
+//                        userAdapter.notifyDataSetChanged();
                     }
 
                     @Override
