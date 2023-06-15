@@ -20,14 +20,16 @@ import java.util.HashMap;
 
 public class ChangeInformationActivity extends AppCompatActivity {
     ProgressDialog dialog;
+    TextInputEditText newName;
+    TextInputEditText newProfession;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_information);
 
         Button changeBtn = findViewById(R.id.changeBtn);
-        TextInputEditText newName = findViewById(R.id.newName);
-        TextInputEditText newProfession = findViewById(R.id.newProfession);
+         newName = findViewById(R.id.newName);
+         newProfession = findViewById(R.id.newProfession);
 
 
         dialog = new ProgressDialog(ChangeInformationActivity.this);
@@ -37,18 +39,22 @@ public class ChangeInformationActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
+                changeInformation();
 
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users");
-
-                HashMap<String,Object> userMap = new HashMap<>();
-                userMap.put("name",newName.getText().toString());
-                userMap.put("profession",newProfession.getText().toString());
-                ref.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).updateChildren(userMap);
-                FancyToast.makeText(ChangeInformationActivity.this,"Profile Update Successful!",FancyToast.LENGTH_LONG,FancyToast.SUCCESS,false).show();
-                Intent intent = new Intent(ChangeInformationActivity.this, MainActivity.class);
-                startActivity(intent);
             }
 
         });
+    }
+
+    private void changeInformation(){
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users");
+
+        HashMap<String,Object> userMap = new HashMap<>();
+        userMap.put("name",newName.getText().toString());
+        userMap.put("profession",newProfession.getText().toString());
+        ref.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).updateChildren(userMap);
+        FancyToast.makeText(ChangeInformationActivity.this,"Profile Update Successful!",FancyToast.LENGTH_LONG,FancyToast.SUCCESS,false).show();
+        Intent intent = new Intent(ChangeInformationActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 }

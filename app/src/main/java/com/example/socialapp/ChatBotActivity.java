@@ -1,10 +1,22 @@
 package com.example.socialapp;
 
+import static java.security.AccessController.getContext;
+
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.media.MediaRecorder;
 import android.os.Bundle;
+import android.os.Environment;
+import android.speech.RecognizerIntent;
+import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.widget.Toast;
 
@@ -19,6 +31,9 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
@@ -33,7 +48,9 @@ public class ChatBotActivity extends AppCompatActivity {
     ActivityChatBotBinding binding;
     List<Message> messageList;
     MessageAdapter messageAdapter;
-
+    private MediaRecorder mediaRecorder;
+    private String outputFile;
+    TextToSpeech speak;
     public static final MediaType JSON
             = MediaType.get("application/json; charset=utf-8");
 
@@ -64,7 +81,50 @@ public class ChatBotActivity extends AppCompatActivity {
                 binding.welcomeText.setVisibility(View.GONE);
             }
         });
+        ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                            if(result.getData() != null){
+                                ArrayList<String> data = result.getData().getStringArrayListExtra(
+                                        RecognizerIntent.EXTRA_RESULTS);
+                                binding.messageEditText.setText(Objects.requireNonNull(data).get(0));
+                            }else{
+                                Toast.makeText(ChatBotActivity.this, "Oops! Dzui lòng thử lại.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                });
+        binding.voiceBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+                intent.putExtra(RecognizerIntent.EXTRA_PROMPT,"speak to text");
+                try {
+                    activityResultLauncher.launch(intent);
+                }catch (Exception e)
+                {
+                    e.printStackTrace();
+                    Toast.makeText(ChatBotActivity.this, "Loi roi", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        speak = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int i) {
+                if(i != TextToSpeech.ERROR)
+                {
+                    speak.setLanguage(Locale.getDefault());
+                }
+            }
+        });
+
     }
+
 
     void addToChat(String message,String sentBy){
         runOnUiThread(new Runnable() {
@@ -126,6 +186,8 @@ public class ChatBotActivity extends AppCompatActivity {
                                 .getJSONObject("message")
                                 .getString("content");
                         addResponse(result.trim());
+                        speak.speak(result.trim(),TextToSpeech.QUEUE_FLUSH,null, UUID.randomUUID().toString());
+
                     } catch (JSONException e) {
                         throw new RuntimeException(e);
                     }
